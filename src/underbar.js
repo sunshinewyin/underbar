@@ -184,7 +184,7 @@
       } else if (accumulator === undefined) {
 
         accumulator = collection[0];
-        //I don't quite understand why it's necessary to set accumulator to the first element.
+
         //This removes the first element from the collection, so that later the iterator does not invoke the first element.
         var newCollection = collection.slice(1,collection.length);
 
@@ -219,15 +219,19 @@
           if (!passTest) {
             return false;
           }
-          return iterator(item);
+          if (iterator(item)) {
+            return true
+          } else return false;
         }, true);
 
   } else if (iterator === undefined) {
       if (collection.length === 0) {return true;}
+
       return _.reduce(collection,function(isFalsy,item) {
-          if (isFalsy) {
-            return false;
-          } else if (item === false || item === 0 || item === "" | item === null || item === undefined || isNaN(item)) {
+          if (!isFalsy) {
+            return true;
+          }
+          if (item === false || item === 0 || item === "" | item === null || item === undefined || isNaN(item)) {
             return false;
           } else return true;
       },true);
@@ -238,6 +242,12 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
+    if (iterator !== undefined) {
+
+
+    }
+
   };
 
 
