@@ -173,28 +173,15 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
 
-      if (accumulator !== undefined) {
-
-         _.each(collection, function(num) {
-        accumulator = iterator(accumulator,num);
-        });
-
-        return accumulator;
-
-      } else if (accumulator === undefined) {
-
-        accumulator = collection[0];
-
-        //This removes the first element from the collection, so that later the iterator does not invoke the first element.
-        var newCollection = collection.slice(1,collection.length);
-
-        _.each(newCollection, function(num) {
-          accumulator = iterator(accumulator,num);
-        });
-
-        return accumulator;
-      }
-  };
+    _.each(collection, function(item) {
+    if (accumulator === undefined) {
+      accumulator = collection[0];
+    } else {
+      accumulator = iterator(accumulator,item);
+    }
+  });
+  return accumulator;
+};
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
@@ -221,7 +208,9 @@
           }
           if (iterator(item)) {
             return true
-          } else return false;
+          } else {
+            return false;
+          }
         }, true);
 
   } else if (iterator === undefined) {
@@ -231,23 +220,16 @@
           if (!isFalsy) {
             return true;
           }
-          if (item === false || item === 0 || item === "" | item === null || item === undefined || isNaN(item)) {
-            return false;
-          } else return true;
+          return !!item;
       },true);
     }
   };
+
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-
-    if (iterator !== undefined) {
-
-
-    }
-
   };
 
 
