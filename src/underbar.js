@@ -203,22 +203,18 @@
 
  if (iterator !== undefined){
 
-      return _.reduce(collection,function(passTest,item) {
-          if (!passTest) {
-            return false;
-          }
-          if (iterator(item)) {
-            return true;
-          } else {
-            return false;
-          }
-        }, true);
+    return _.reduce(collection,function(passTest,item) {
+      if (!passTest) {
+        return false;
+      }
+          return (!!iterator(item));
+    }, true);
 
   } else if (iterator === undefined) {
 
       return _.reduce(collection,function(isFalsy,item) {
-          if (!isFalsy) {
-            return true;
+        if (!isFalsy) {
+          return true;
           }
           return !!item;
       },true);
@@ -277,6 +273,13 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
+    for (var i = 1; i<arguments.length; i++) {
+      _.each(arguments[i], function(value,key) {
+        obj[key] = value;
+      });
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
