@@ -199,22 +199,22 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
 
+ if (collection.length === 0) {return true;}
+
  if (iterator !== undefined){
 
-      if (collection.length === 0) {return true;}
       return _.reduce(collection,function(passTest,item) {
           if (!passTest) {
             return false;
           }
           if (iterator(item)) {
-            return true
+            return true;
           } else {
             return false;
           }
         }, true);
 
   } else if (iterator === undefined) {
-      if (collection.length === 0) {return true;}
 
       return _.reduce(collection,function(isFalsy,item) {
           if (!isFalsy) {
@@ -230,6 +230,31 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (collection.length === 0) {
+      return false;
+    }
+
+    if (iterator === undefined) {
+
+      iterator = _.identity;
+
+      return _.reduce(collection,function(isTruthy,item) {
+        if (isTruthy) {
+          return true;
+        }
+        return !!item;
+      },false);
+    }
+
+    if (iterator !== undefined) {
+
+      return _.reduce(collection,function(passTest,item) {
+        if (passTest) {
+          return true;
+        }
+        return (!!iterator(item));
+      },false);
+    }
   };
 
 
