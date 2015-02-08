@@ -343,6 +343,7 @@
 
     return function() {
       key = Array.prototype.join.call(arguments);
+      //This creates a key from the arguments that are passed in, to later link to the values that the function evaluates to.
 
       if (!allResults.hasOwnProperty(key)) {
         result = func.apply(this,arguments);
@@ -363,6 +364,7 @@
   _.delay = function(func, wait) {
 
     var arrayOfArgsToPassIn = Array.prototype.slice.call(arguments,2);
+    //This creates an array of arguments that are passed in to the function (minus the first two arguments, which are func and wait)
 
     return setTimeout(function(){
       func.apply(this,arrayOfArgsToPassIn);
@@ -382,7 +384,36 @@
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
 
+    var arrayToBeShuffled = array.slice();
+    var arrayOfNewIndexes = [];
+    var newIndex;
+    var shuffledArray = [];
 
+    while (arrayOfNewIndexes.length<array.length) {
+
+      newIndex = Math.floor(Math.random() * array.length);
+
+      if (!_.contains(arrayOfNewIndexes,newIndex)) {
+      arrayOfNewIndexes.push(newIndex);
+      }
+    };
+
+    for (var i = 0; i<array.length; i++) {
+      shuffledArray[arrayOfNewIndexes[i]] = arrayToBeShuffled.shift();
+    }
+
+    for (var j = 0; j<shuffledArray.length; j++) {
+      var counter = 0;
+      if (shuffledArray[i] == array[i]) {
+        counter++;
+      }
+
+    if (counter >= array.length) {
+      _.shuffle(arrayToBeShuffled);
+    }
+
+  }
+    return shuffledArray;
   };
 
 
